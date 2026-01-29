@@ -39,12 +39,13 @@ RUN mkdir -p /etc/apt/keyrings
 # Add Google's official GPG key and the Antigravity repo
 RUN curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | \
     gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg
-
 RUN echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | \
     tee /etc/apt/sources.list.d/antigravity.list
-
 # Update the package cache
 RUN apt-get update
+
+# Make sure Antigravity has a place to unpack its server (a)
+RUN mkdir -p /config/.antigravity-server && chmod 777 /config/.antigravity-server
 
 # Install gemini-cli -- note, this requires google's GPG key per above
 RUN bun install -g @google/gemini-cli

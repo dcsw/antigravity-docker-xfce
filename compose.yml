@@ -2,6 +2,14 @@ services:
   antigravity-sandbox:
     build: .
     container_name: antigravity-sandbox
+    platform: linux/amd64
+    deploy:
+      # resources:
+      #   limits:
+      #     cpus: '4'
+      #     memory: 8G       # hard cap
+      #   reservations:
+      #     memory: 4G       # what it “expects” to have
     privileged: true # Required for certain agent system actions
     environment:
       - PUID=1000
@@ -11,4 +19,5 @@ services:
       - 3000:3000 # The desktop UI port
     volumes:
       - ./config:/config # Persists your Antigravity settings/code
+      - ./global.md:/config/global.md
     restart: unless-stopped
