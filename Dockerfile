@@ -26,6 +26,14 @@ RUN apt update
 # Install the antigravity package
 RUN apt install antigravity
 
+# Disable Antigravity telemetry by creating user settings file
+RUN mkdir -p /root/.config/Antigravity/User
+COPY antigravity-settings.json /root/.config/Antigravity/User/settings.json
+
+# Disable VSCode telemetry by creating a similar user settings file.
+RUN mkdir -p /root/.config/Code/User
+COPY vscode-settings.json /root/.config/Code/User/settings.json   
+
 # Clean up to keep the image small
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
