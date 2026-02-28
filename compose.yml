@@ -2,7 +2,9 @@ services:
   antigravity-sandbox:
     build: .
     container_name: antigravity-sandbox
-    privileged: true # Required for certain agent system actions
+    privileged: true # Required for certain agent system actionssecurity_opt:
+    security_opt:
+      - seccomp:unconfined # Helps with rendering and hardware access
     deploy:
       resources:
         reservations:
@@ -23,7 +25,8 @@ services:
       - NVIDIA_DRIVER_CAPABILITIES=all
       - IDLE_CHECK_INTERVAL=${IDLE_CHECK_INTERVAL:-30}
       - IDLE_TIMEOUT=${IDLE_TIMEOUT:-60}
-      - SELKIES_DESKTOP_LOCKED=false
+      - SELKIES_DESKTOP_LOCKED=false- 
+      - REMOTE_SCREEN_RENDER=true # Forces server-side cursor rendering
     runtime: nvidia
     # Shared memory for better performance
     shm_size: '8gb'
