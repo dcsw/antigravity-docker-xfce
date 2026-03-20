@@ -3,16 +3,17 @@ services:
     build: .
     container_name: antigravity-sandbox
     privileged: true # Required for certain agent system actions
-    deploy:
-      resources:
-        reservations:
-          devices:
-            - driver: nvidia
-              count: all
-              capabilities: [gpu, compute, video, graphics, utility]
-        limits:
-          memory: 16G
-          cpus: '8'
+#     deploy:
+#       resources:
+#         reservations:
+#           devices:
+#             - driver: nvidia
+#               count: all
+#               capabilities: [gpu, compute, video, graphics, utility]
+#         limits:
+#           memory: 16G
+#           cpus: '8'
+    shm_size: "8gb"
     environment:
       - PUID=1000
       - PGID=1000
