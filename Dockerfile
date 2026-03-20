@@ -1,5 +1,4 @@
-FROM ghcr.io/astral-sh/uv:latest AS uv_bin
-FROM lscr.io/linuxserver/webtop:debian-kde
+FROM lscr.io/linuxserver/webtop:debian-xfce
 
 # Default preinstalled webtop user is abc
 ARG USER=abc
