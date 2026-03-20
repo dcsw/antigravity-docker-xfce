@@ -3,14 +3,34 @@ services:
     build: .
     container_name: antigravity-sandbox
     privileged: true # Required for certain agent system actions
+#     deploy:
+#       resources:
+#         reservations:
+#           devices:
+#             - driver: nvidia
+#               count: all
+#               capabilities: [gpu, compute, video, graphics, utility]
+#         limits:
+#           memory: 16G
+#           cpus: '8'
     shm_size: "8gb"
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=America/New_York  # This sets the internal clock to EST/EDT
+      - ANTIGRAVITY_AUTO_UPDATE=true
+      - AUTOSTART_ANTIGRAVITY=${AUTOSTART_ANTIGRAVITY:-true}
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=all
+      - IDLE_CHECK_INTERVAL=${IDLE_CHECK_INTERVAL:-30}
+      - IDLE_TIMEOUT=${IDLE_TIMEOUT:-60}
+      - SELKIES_DESKTOP_LOCKED=false
+    runtime: nvidia
+    # Shared memory for better performance
+    shm_size: '8gb'
     ports:
       - 3000:3000 # The desktop UI port
     volumes:
-      - ./config:/config # Persists your Antigravity settings/code
-      - ./projects:/config/Desktop/Projects
+      - ./config:/home/abc/config
+      - ./projects:/home/abc/projects # Persists your Antigravity settings/code
     restart: unless-stopped
